@@ -1,0 +1,2 @@
+bakera.jp (http://bakera.jp) のバックエンドプログラムであるhatomaru.dllです。
+動作には IIS と .NET Framework4 が必要です。
