@@ -54,17 +54,12 @@ namespace Bakera.Hatomaru{
 
 		/// <summary>
 		/// 最近の Topic を取得します。
+		/// 引数として「最近」の基準となるTopicを受け取ります。
 		/// </summary>
-		public Topic[] GetRecentTopics(){
-			string selectString = String.Format("[{0}]>Max([{0}])-{1}", DiaryTable.DateColName, RecentSpan.Ticks);
-			return GetTopicsBySelectString(selectString, DateSortString);
-		}
-
-		/// <summary>
-		/// 指定日以降の Topic を取得します。
-		/// </summary>
-		public Topic[] GetRecentTopics(DateTime limit){
-			string selectString = String.Format("[{0}]>{1}", DiaryTable.DateColName, limit.Ticks);
+		public Topic[] GetRecentTopics(Topic latestTopic){
+			DateTime recentDate = latestTopic.Date - YearDiary.RecentSpan;
+			DateTime recentCreatedDate = latestTopic.Created - YearDiary.RecentSpan;
+			string selectString = String.Format("[{0}]>{1} OR [{2}]>{3}", DiaryTable.DateColName, recentDate.Ticks, DiaryTable.CreatedColName, recentCreatedDate.Ticks);
 			return GetTopicsBySelectString(selectString, DateSortString);
 		}
 

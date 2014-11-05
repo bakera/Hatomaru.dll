@@ -17,6 +17,8 @@ namespace Bakera.Hatomaru{
 
 		public const string SpamTitle = "未承認メッセージ (投稿元:{0})";
 
+		private const string DateAttributeFormat = "yyyy-MM-ddTHH:mm:ssZ";
+
 		private const string MessageElement = "message";
 		private const string IdAttr = "num";
 		private const string ParentAttr = "parent";
@@ -192,8 +194,10 @@ namespace Bakera.Hatomaru{
 
 // パブリックメソッド
 
-		public string DateToString(){
-			return Date.ToString("yyyy年M月d日 H時m分");
+		public string DateToString(TimeZoneInfo zone){
+			DateTime resultDate = this.Date;
+			resultDate = TimeZoneInfo.ConvertTime(resultDate, zone);
+			return resultDate.ToString("yyyy年M月d日 H時m分");
 		}
 
 		/// <summary>
@@ -208,6 +212,7 @@ namespace Bakera.Hatomaru{
 			IpAddress = messageElement.GetAttributeValue(IpAddressAttr);
 			IsSpam = messageElement.GetAttributeBool(SpamAttr);
 			Date = messageElement.GetAttributeDateTime(DateAttr);
+
 			CommentTo = messageElement.GetAttributePath(CommentToAttr);
 			SrcCountry = messageElement.GetAttributeValue(SrcCountryAttr);
 
@@ -240,9 +245,13 @@ namespace Bakera.Hatomaru{
 			if(IpAddress == null) throw new Exception("IPアドレスがありません。");
 			result.SetAttribute(IpAddressAttr, IpAddress.ToString());
 			if(IsSpam) result.SetAttribute(SpamAttr, SpamAttr);
-			result.SetAttribute(DateAttr, Date.ToString());
+
+			// 時刻はUTCで記録
+			result.SetAttribute(DateAttr, Date.ToUniversalTime().ToString(DateAttributeFormat));
+
 			if(SrcCountry != null) result.SetAttribute(SrcCountryAttr, SrcCountry);
 			if(CommentTo != null) result.SetAttribute(CommentToAttr, CommentTo.ToString());
+
 			result.InnerText = Message;
 			return result;
 		}

@@ -54,7 +54,7 @@ namespace Bakera.Hatomaru{
 		protected XmlNode NameAndDate(Article a){
 			XmlNode result = Html.CreateDocumentFragment();
 			XmlElement nameElement = Html.Create("cite", "from", a.Name);
-			XmlElement dateElement = Html.Create("span", "date", "(" + a.DateToString() + ")");
+			XmlElement dateElement = Html.Create("span", "date", "(" + a.DateToString(Model.Manager.IniData.TimeZone) + ")");
 			result.AppendChild(nameElement);
 			result.AppendChild(Html.Space);
 			result.AppendChild(dateElement);

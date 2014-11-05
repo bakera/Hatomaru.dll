@@ -21,13 +21,13 @@ namespace Bakera.Hatomaru{
 		// 列名称の定数
 		public const string NumColName = "num";
 		public const string DateColName = "date";
+		public const string CreatedColName = "created";
 		public const string MessageColName = "topic";
-
-
 
 		// 列
 		private DataColumn myNumCol;
 		private DataColumn myDateCol;
+		private DataColumn myCreatedCol;
 		private DataColumn myMessageCol;
 
 
@@ -47,6 +47,7 @@ namespace Bakera.Hatomaru{
 
 		public DataColumn NumCol{ get{return myNumCol;}}
 		public DataColumn DateCol{ get{return myDateCol;}}
+		public DataColumn CreatedCol{ get{return myCreatedCol;}}
 		public DataColumn MessageCol{ get{return myMessageCol;}}
 
 
@@ -56,7 +57,7 @@ namespace Bakera.Hatomaru{
 
 		public void AddTopic(Topic t){
 			if(t.Id == 0) throw new Exception("トピックの番号がありません : " + t.ToString());
-			Object[] data = new Object[]{t.Id, t.Date.Ticks, t};
+			Object[] data = new Object[]{t.Id, t.Date.Ticks, t.Created.Ticks, t};
 			DataRow row = this.NewRow();
 			row.ItemArray = data;
 			this.Rows.Add(row);
@@ -85,6 +86,13 @@ namespace Bakera.Hatomaru{
 			myDateCol.AutoIncrement = false;
 			myDateCol.AllowDBNull = false;
 			this.Columns.Add(myDateCol);
+
+			// Created
+			myCreatedCol = new DataColumn(CreatedColName, typeof(long));
+			myCreatedCol.Unique = false;
+			myCreatedCol.AutoIncrement = false;
+			myCreatedCol.AllowDBNull = false;
+			this.Columns.Add(myCreatedCol);
 
 
 			// 本文

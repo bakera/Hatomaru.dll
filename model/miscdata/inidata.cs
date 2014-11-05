@@ -48,6 +48,7 @@ namespace Bakera.Hatomaru{
 		public const string AmazonWsSecretKeyName = "amazonWsSecretKey";
 		public const string AmazonServiceHostNameName = "amazonServiceHostName";
 		public const string AmazonAssociateTagName = "amazonAssociateTag";
+		public const string TimeZoneName = "timezone";
 
 		public const string DiaryName = "diary";
 		public const string HtmlRefName = "htmlref";
@@ -225,6 +226,14 @@ namespace Bakera.Hatomaru{
 			private set;
 		}
 
+		/// <summary>
+		/// 初期設定ファイルで設定されたTimeZoneInfoの情報を取得します。
+		/// </summary>
+		public TimeZoneInfo TimeZone{
+			get;
+			private set;
+		}
+
 
 
 // パブリックメソッド
@@ -267,6 +276,7 @@ namespace Bakera.Hatomaru{
 			AmazonServiceHostName = LoadString(doc, AmazonServiceHostNameName);
 			AmazonAssociateTag = LoadString(doc, AmazonAssociateTagName);
 
+			TimeZone = LoadTimeZone(doc, TimeZoneName);
 		}
 
 		// XML データからディレクトリ情報を取得します。
@@ -306,6 +316,16 @@ namespace Bakera.Hatomaru{
 			if(!e.HasAttributes) return null;
 			string str = e.Attributes[0].Value;
 			return str;
+		}
+
+		// XML データからタイムゾーンを取得します。
+		private TimeZoneInfo LoadTimeZone(XmlDocument doc, string elementName){
+			string zoneId = LoadString(doc, elementName);
+			if(string.IsNullOrEmpty(zoneId)){
+				return TimeZoneInfo.Utc;
+			}
+
+			return TimeZoneInfo.FindSystemTimeZoneById(zoneId);
 		}
 
 

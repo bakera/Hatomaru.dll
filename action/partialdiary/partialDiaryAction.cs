@@ -84,11 +84,10 @@ namespace Bakera.Hatomaru{
 		// •¡”‚Ì YearDiary‚É‚Ü‚½‚ª‚Á‚Äæ“¾‚Å‚«‚Ü‚·B
 		protected Topic[] GetRecentTopics(){
 			Topic firstTopic = Diary.DiaryList[0].GetLatestTopic();
-			DateTime limit = firstTopic.Date - YearDiary.RecentSpan;
 			List<Topic> result = new List<Topic>();
 			for(int i = 0; i < Diary.DiaryList.Length; i++){
 				YearDiary yd = Diary.DiaryList[i];
-				Topic[] topics = yd.GetRecentTopics(limit);
+				Topic[] topics = yd.GetRecentTopics(firstTopic);
 				if(topics.Length == 0) break;
 				result.AddRange(topics);
 				myResponse.AddDataSource(yd);

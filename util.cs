@@ -120,7 +120,7 @@ namespace Bakera.Hatomaru{
 			string s = GetAttributeValue(node, attrName);
 			if(string.IsNullOrEmpty(s)) return default(DateTime);
 			DateTime result = default(DateTime);
-			DateTime.TryParse(s, null, DateTimeStyles.NoCurrentDateDefault, out result);
+			DateTime.TryParse(s, null, DateTimeStyles.NoCurrentDateDefault & DateTimeStyles.AdjustToUniversal, out result);
 			return result;
 		}
 
@@ -133,7 +133,7 @@ namespace Bakera.Hatomaru{
 			if(s == null) return default(DateTime);
 			if(s == "") return baseDate;
 			DateTime result = default(DateTime);
-			DateTime.TryParse(s, null, DateTimeStyles.NoCurrentDateDefault, out result);
+			DateTime.TryParse(s, null, DateTimeStyles.NoCurrentDateDefault & DateTimeStyles.AdjustToUniversal, out result);
 			if(result != default(DateTime) && result.Year == 1){
 				result = new DateTime(baseDate.Year, baseDate.Month, baseDate.Day, result.Hour, result.Minute, result.Second);
 			}
