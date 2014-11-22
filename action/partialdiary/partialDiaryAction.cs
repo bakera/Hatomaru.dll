@@ -19,6 +19,7 @@ namespace Bakera.Hatomaru{
 		public const string DateNoteFormat = "(M月d日)";
 
 
+
 // コンストラクタ
 
 		protected PartialDiaryAction(HatomaruXml model, AbsPath path) : base(model, path){}
@@ -233,7 +234,7 @@ namespace Bakera.Hatomaru{
 		protected XmlNode MakeDateAnchor(DateTime d){
 			AbsPath linkPath = Diary.BasePath.Combine(d.Year, d.Month, d.Day);
 			XmlElement result = Html.A(linkPath);
-			result.InnerText = d.ToString(DateFormat);
+			result.InnerText = d.ToString(DateFormat, Model.Manager.IniData.CultureInfo);
 			return result;
 		}
 
@@ -241,7 +242,7 @@ namespace Bakera.Hatomaru{
 		protected XmlNode MakeMonthAnchor(DateTime d){
 			AbsPath linkPath = Diary.BasePath.Combine(d.Year, d.Month);
 			XmlElement result = Html.A(linkPath);
-			result.InnerText = d.ToString(MonthFormat);
+			result.InnerText = d.ToString(MonthFormat, Model.Manager.IniData.CultureInfo);
 			return result;
 		}
 
@@ -262,7 +263,7 @@ namespace Bakera.Hatomaru{
 					ul = Html.Create("ul");
 					currentDate = t.Date;
 				}
-				XmlElement li = Html.Create("li", null, MakeTopicAnchor(t), Html.Space, Html.Span("date", t.Date.ToString(DateNoteFormat)));
+				XmlElement li = Html.Create("li", null, MakeTopicAnchor(t), Html.Space, Html.Span("date", t.Date.ToString(DateNoteFormat, Model.Manager.IniData.CultureInfo)));
 				ul.AppendChild(li);
 			}
 			if(ul != null) result.AppendChild(ul);
@@ -325,8 +326,8 @@ namespace Bakera.Hatomaru{
 		// 更新日の文字列を得ます
 		// 00:00の場合は日付のみ返します。
 		private string GetDateStr(DateTime t){
-			if(t.Hour == 0 && t.Minute == 0) return t.ToString(UpdatedFormatShort);
-			return t.ToString(UpdatedFormat) + "頃";
+			if(t.Hour == 0 && t.Minute == 0) return t.ToString(UpdatedFormatShort, Model.Manager.IniData.CultureInfo);
+			return t.ToString(UpdatedFormat, Model.Manager.IniData.CultureInfo) + "頃";
 		}
 
 // 見出しとリンク

@@ -33,10 +33,10 @@ namespace Bakera.Hatomaru{
 			Topic[] topics = YearDiary.GetDayTopics(myDate);
 			if(topics.Length == 0) return NotFound();
 
-			string monthTitle = myDate.ToString(MonthFormat);
+			string monthTitle = myDate.ToString(MonthFormat, Model.Manager.IniData.CultureInfo);
 			Response.AddTopicPath(myModel.BasePath.Combine(myDate.Month), monthTitle);
 
-			string dateTitle = myDate.ToString(DateFormat);
+			string dateTitle = myDate.ToString(DateFormat, Model.Manager.IniData.CultureInfo);
 			Response.AddTopicPath(myModel.BasePath.Combine(myDate.Month, myDate.Day), dateTitle);
 			Response.SelfTitle = dateTitle;
 			Response.BaseTitle = Diary.BaseTitle;

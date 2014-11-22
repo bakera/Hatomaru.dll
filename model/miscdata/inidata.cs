@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Xml;
 
@@ -49,6 +50,7 @@ namespace Bakera.Hatomaru{
 		public const string AmazonServiceHostNameName = "amazonServiceHostName";
 		public const string AmazonAssociateTagName = "amazonAssociateTag";
 		public const string TimeZoneName = "timezone";
+		public const string CultureInfoName = "cultureinfo";
 
 		public const string DiaryName = "diary";
 		public const string HtmlRefName = "htmlref";
@@ -234,6 +236,14 @@ namespace Bakera.Hatomaru{
 			private set;
 		}
 
+		/// <summary>
+		/// 初期設定ファイルで設定されたCultureInfoの情報を取得します。
+		/// </summary>
+		public CultureInfo CultureInfo{
+			get;
+			private set;
+		}
+
 
 
 // パブリックメソッド
@@ -277,6 +287,7 @@ namespace Bakera.Hatomaru{
 			AmazonAssociateTag = LoadString(doc, AmazonAssociateTagName);
 
 			TimeZone = LoadTimeZone(doc, TimeZoneName);
+			CultureInfo = LoadCultureInfo(doc, CultureInfoName);
 		}
 
 		// XML データからディレクトリ情報を取得します。
@@ -324,8 +335,16 @@ namespace Bakera.Hatomaru{
 			if(string.IsNullOrEmpty(zoneId)){
 				return TimeZoneInfo.Utc;
 			}
-
 			return TimeZoneInfo.FindSystemTimeZoneById(zoneId);
+		}
+
+		// XML データからカルチャ情報を取得します。
+		private CultureInfo LoadCultureInfo(XmlDocument doc, string elementName){
+			string cultureId = LoadString(doc, elementName);
+			if(string.IsNullOrEmpty(cultureId)){
+				return CultureInfo.InvariantCulture;
+			}
+			return new CultureInfo(cultureId);
 		}
 
 
