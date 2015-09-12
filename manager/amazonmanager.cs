@@ -89,6 +89,9 @@ namespace Bakera.Hatomaru{
 			FileInfo cacheFile = GetCacheFile(asin);
 			if(!cacheFile.Exists) return null;
 
+			// 0バイトのファイルができている場合 null を返す
+			if(cacheFile.Length == 0) return null;
+
 			// キャッシュ期限切れならnullを返す
 			TimeSpan cacheTimeSpan = DateTime.Now - cacheFile.LastWriteTime;
 			if(cacheTimeSpan > GeneralCacheSpan){
