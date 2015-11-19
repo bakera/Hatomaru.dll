@@ -39,13 +39,17 @@ namespace Bakera.Hatomaru{
 		}
 
 		public void Save(){
-			using(FileStream fs = myFile.Open(FileMode.Create, FileAccess.Write, FileShare.None))
-			using(StreamWriter sw = new StreamWriter(fs)){
-				foreach(KeyValuePair<AbsPath, string> pair in myData){
-					sw.Write(pair.Key);
-					sw.Write("\t");
-					sw.WriteLine(pair.Value);
+			try{
+				using(FileStream fs = myFile.Open(FileMode.Create, FileAccess.Write, FileShare.None))
+				using(StreamWriter sw = new StreamWriter(fs)){
+					foreach(KeyValuePair<AbsPath, string> pair in myData){
+						sw.Write(pair.Key);
+						sw.Write("\t");
+						sw.WriteLine(pair.Value);
+					}
 				}
+			} catch(IOException){
+				// 保存できなくても気にしない
 			}
 		}
 
