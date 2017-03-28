@@ -29,9 +29,11 @@ namespace Bakera.Hatomaru{
 		/// <summary>
 		/// このレスポンスをキャッシュして良いか示す値を設定・取得します。
 		/// normalresponse はキャッシュ可能です。
+		/// →キャッシュしないように変更
 		/// </summary>
 		public override bool IsCacheable {
-			get{return true;}
+			// get{return true;}
+			get{return false;}
 		}
 
 		/// <summary>
