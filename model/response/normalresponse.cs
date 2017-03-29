@@ -89,7 +89,7 @@ namespace Bakera.Hatomaru{
 				string resultStr = Html.OuterXml;
 				response.Write(resultStr);
 				// ‚à‚¤ˆê“xŒ©‚é
-				if(myCacheFile.Exists) Html = null;
+				if(myCacheFile != null && myCacheFile.Exists) Html = null;
 			} else if(myCacheFile != null){
 				myCacheFile.Refresh();
 				if(myCacheFile.Exists){
